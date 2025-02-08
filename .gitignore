@@ -6,6 +6,7 @@ __pycache__/
 
 # File konfigurasi atau kredensial sensitif
 config.txt
+keylogger_log.txt
 .env
 
 # Virtual environment (jika menggunakan virtualenv)

