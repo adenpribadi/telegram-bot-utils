@@ -30,7 +30,7 @@ This Telegram bot provides various system control commands and functionalities f
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/telegram-bot.git
+   git clone https://github.com/adenpribadi/telegram-bot-utils.git
    cd telegram-bot
    ```
 
