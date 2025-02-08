@@ -1,7 +1,15 @@
 import openai
+from src.utils import read_tokens_from_file
 
-api_key = "sk-22d6c4ae28804009941031ebd25bf6ee"
-client = openai.OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+# Membaca semua token dari file config.txt
+config_tokens = read_tokens_from_file("config.txt")
+# Ambil DEEPSEEK_API_KEY dari dictionary yang didapat
+DEEPSEEK_API_KEY = config_tokens.get("DEEPSEEK_API_KEY")
+
+if not DEEPSEEK_API_KEY:
+    raise ValueError("DEEPSEEK_API_KEY tidak ditemukan dalam file config.txt")
+
+client = openai.OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
 
 def ask_question(text):
     try:
