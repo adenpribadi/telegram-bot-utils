@@ -1,0 +1,28 @@
+# Direktori dan file Python yang tidak perlu di-track oleh Git
+__pycache__/
+*.pyc
+*.pyo
+*.log
+
+# File konfigurasi atau kredensial sensitif
+config.txt
+.env
+
+# Virtual environment (jika menggunakan virtualenv)
+venv/
+.env/
+
+# File sementara dari editor dan sistem operasi
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+*.mp4
+*.avi
+*.wav
+
+# Hasil build dari PyInstaller jika menggunakan
+dist/
+build/
+*.spec
