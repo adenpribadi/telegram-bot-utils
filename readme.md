@@ -1,4 +1,3 @@
-```markdown
 # Telegram Bot for System Control and Capture
 
 This Telegram bot provides various system control commands and functionalities for remote control over a device. The bot can be used to control the system, capture images/videos, record audio, retrieve system information, and more. It uses the `telebot` library for interaction with the Telegram API.
@@ -31,7 +30,7 @@ This Telegram bot provides various system control commands and functionalities f
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/telegram-bot.git
+   git clone https://github.com/adenpribadi/telegram-bot-utils.git
    cd telegram-bot
    ```
 
@@ -46,7 +45,7 @@ This Telegram bot provides various system control commands and functionalities f
 
 4. Start the bot:
    ```bash
-   python bot.py
+   python app.py
    ```
 
 5. Optionally, run a WebSocket server for screen sharing. Modify the IP address in the `share_screen` function if necessary.
