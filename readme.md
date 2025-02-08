@@ -101,3 +101,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 2. **Update with Your Information**: If you have any custom links, project-specific information, or additional instructions, feel free to modify the `README.md` content.
 
 3. **Optional Features**: If you're adding more features or modifying existing ones, remember to update the `README.md` accordingly!
+
+
+## Warning
+The Keylogger feature and other features in this application are designed for educational and personal experimentation purposes only. Using this application for other purposes, especially for monitoring or collecting data without consent, may violate privacy laws and regulations.
+
+**Important to note**:
+
+- `Privacy and Security`: Using a keylogger or any other feature to monitor someone else's device without their consent is illegal in many countries. You must ensure that this application is used only in a legal environment and with explicit permission from all parties involved.
+- `Misuse of the Application`: I, as the creator of this application, am not responsible for any damage or misuse resulting from the use of this application. The user is solely responsible for how this application is used and ensuring that it is used ethically and in compliance with applicable laws.
+**Use this application wisely and responsibly.**
