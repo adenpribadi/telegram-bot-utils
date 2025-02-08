@@ -22,6 +22,7 @@ This Telegram bot provides various system control commands and functionalities f
 - **Capture**: Captures a screenshot from the specified source (`desktop`, `webcam`).
 - **Records**: Records a video or audio from webcam or microphone. Duration can be specified.
 - **Share Screen**: Starts or stops screen sharing. (Requires a WebSocket server to handle screen sharing.)
+- **Keylogger**: Starts or stops capturing keystrokes from the device. The keylogger logs every key pressed, including special keys (e.g., space, enter, backspace), and saves them with timestamps in a log file for later review.
 
 ### AI Integration
 - **Ask**: The bot can answer questions using AI integration (powered by your `ask_question` function).
@@ -72,6 +73,10 @@ Once the bot is running, you can interact with it on Telegram using the followin
 - `/sharescreen start`: Starts sharing the screen (requires WebSocket server).
 - `/sharescreen stop`: Stops screen sharing.
 
+### Keylogger
+- `/keylogger start`: Starts recording keystrokes from the device, logging every key pressed with timestamps.
+- `/keylogger stop`: Stops recording keystrokes and ends the logging process.
+
 ## Notes
 - Some commands may require administrative privileges on the system.
 - Screen sharing functionality requires a WebSocket server. Please ensure it's properly configured.
@@ -86,7 +91,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - `telebot` for interacting with the Telegram API.
 - `Flask` and other dependencies for web and server functionalities.
 
-```
 
 ### What to do next:
 1. **Dependencies**: List all the required dependencies like `telebot`, `psutil`, `requests`, etc., in a `requirements.txt` file for easy installation. You can create this file by running:
